@@ -12,6 +12,8 @@ RUN openrc
 RUN touch /run/openrc/softlevel
 
 COPY requirements/mariadb/tools/schema.sh .
+COPY requirements/mariadb/conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+
 RUN chmod +x /schema.sh
 
 EXPOSE 3306
