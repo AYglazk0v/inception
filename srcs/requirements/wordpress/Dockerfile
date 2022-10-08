@@ -16,6 +16,7 @@ RUN apk update && apk upgrade && apk add --no-cache \
     php${PHP_VERSION}-zip \
     php${PHP_VERSION}-redis \
     wget \
+    curl \
     unzip && \
     sed -i "s|display_errors = Off|display_errors = On|g" \
       /etc/php8/php.ini && \
@@ -26,13 +27,21 @@ RUN apk update && apk upgrade && apk add --no-cache \
     sed -i "s|;listen.group = nobody|listen.group = nobody|g" \
       /etc/php8/php-fpm.d/www.conf && \
     rm -f /var/cache/apk/*
+
+COPY ./requirements/wordpress/conf/wp-config-create.sh /
+
+RUN chmod +x ./wp-config-create.sh
+
 WORKDIR /var/www
+
 RUN wget https://wordpress.org/latest.zip && \
     unzip latest.zip && \
     cp -rf wordpress/* . && \
-    rm -rf wordpress latest.zip
-COPY ./requirements/wordpress/conf/wp-config-create.sh .
+    rm -rf wordpress latest.zip \
+    /wp-config-create.sh
+
 EXPOSE 9000
-RUN sh wp-config-create.sh && rm wp-config-create.sh && \
-    chmod -R 0777 wp-content/
+
+RUN chmod -R 0777 wp-content
+
 CMD ["/usr/sbin/php-fpm8", "-F"]
