@@ -67,3 +67,64 @@ services:
     volumes:
       - wp-volume:/var/www/
 
+  adminer:
+    build:
+      context: .
+      dockerfile: requirements/bonus/adminer/Dockerfile
+    container_name: adminer
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:8080"
+    networks:
+     - inception
+    restart: always
+
+  redis:
+    build:
+      context: .
+      dockerfile: requirements/bonus/redis/Dockerfile
+    container_name: redis
+    depends_on:
+      - wordpress
+    ports:
+      - "6379:6379"
+    networks:
+      - inception
+    restart: always
+
+  prometheus:
+    container_name: prometheus
+    build: 
+      context: .
+      dockerfile: requirements/bonus/prometheus/Dockerfile
+    ports:
+      - 9090:9090
+    restart: always
+    networks:
+      - inception
+
+  ftp:
+    container_name: ftp
+    build: 
+      context: .
+      dockerfile: requirements/bonus/ftp/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "21:21"
+      - "21000:21000"
+    volumes:
+      - wp-volume:/home/gtaggana/ftp/files
+    restart: always
+    networks:
+      - inception
+
+  website:
+    build:
+      context: .
+      dockerfile: requirements/bonus/site/Dockerfile
+    container_name: website
+    ports:
+      - "8081:8081"
+    restart: always
