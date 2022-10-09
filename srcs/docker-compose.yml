@@ -6,6 +6,12 @@ volumes:
       o: bind
       type: none
       device: /home/${USER}/wordpress
+  db-volume:
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/db
+
 
 networks:
     inception:
@@ -32,12 +38,16 @@ services:
     restart:  on-failure
 
   mariadb:
+    container_name: mariadb
     build:
       context: .
       dockerfile: requirements/mariadb/Dockerfile
-    container_name: mariadb
+    volumes:
+      - db-volume:/var/lib/mysql
     networks:
       - inception
+    ports:
+      - "3306:3306"
     env_file:
       - .env
     restart: always

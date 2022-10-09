@@ -1,6 +1,6 @@
 FROM alpine:3.16
 
-RUN apk update && apk add --no-cache mariadb mariadb-common mariadb-client openrc
+RUN apk update && apk add --no-cache mariadb mariadb-common mariadb-client openrc mysql
 
 RUN openrc
 RUN touch /run/openrc/softlevel
@@ -14,4 +14,4 @@ VOLUME [ "/sys/fs/cgroup" ]
 
 EXPOSE 3306
 
-ENTRYPOINT ["./schema.sh"]
+CMD ["./schema.sh"]

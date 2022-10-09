@@ -2,6 +2,7 @@ FROM alpine:3.16
 ARG PHP_VERSION=8
 
 RUN apk update && apk upgrade && apk add --no-cache \
+    php-phar \
     php${PHP_VERSION} \
     php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-mysqli \
@@ -34,14 +35,8 @@ RUN chmod +x ./wp-config-create.sh
 
 WORKDIR /var/www
 
-RUN wget https://wordpress.org/latest.zip && \
-    unzip latest.zip && \
-    cp -rf wordpress/* . && \
-    rm -rf wordpress latest.zip \
-    /wp-config-create.sh
+RUN chmod -R 0777 ../www/
 
 EXPOSE 9000
 
-RUN chmod -R 0777 wp-content
-
-CMD ["/usr/sbin/php-fpm8", "-F"]
+CMD ["sh", "/wp-config-create.sh"]
