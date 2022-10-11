@@ -2,11 +2,13 @@ version: '3.3'
 
 volumes:
   wp-volume:
+    driver: local
     driver_opts:
       o: bind
       type: none
       device: /home/${USER}/data/wordpress
   db-volume:
+    driver: local
     driver_opts:
       o: bind
       type: none

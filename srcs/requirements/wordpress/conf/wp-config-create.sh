@@ -28,8 +28,8 @@ define( 'WP_REDIS_DATABASE', 0 );
 require_once ABSPATH . 'wp-settings.php';
 EOF
 
-wp core install --url=${DOMAIN_NAME} --title=Inception --admin_user=${DB_ROOT} --admin_password=${DB_PASSW} --admin_email=${DB_ROOT_MAIL} --allow-root
-wp user create ${DB_USER} ${DB_USER_MAIL} --allow-root --role=subscriber --user_pass=${DB_PASSW}
+wp core install --url=${DOMAIN_NAME} --title=Inception --admin_user=${DB_ROOT} --admin_password=${DB_PASS} --admin_email=${DB_ROOT_MAIL} --allow-root
+wp user create ${DB_USER} ${DB_USER_MAIL} --allow-root --role=subscriber --user_pass=${DB_PASS}
 
 wp plugin install redis-cache --activate --allow-root
 wp plugin update --all --allow-root
