@@ -5,12 +5,12 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/${USER}/wordpress
+      device: /home/${USER}/data/wordpress
   db-volume:
     driver_opts:
       o: bind
       type: none
-      device: /home/${USER}/db
+      device: /home/${USER}/data/db
 
 
 networks:
@@ -19,10 +19,10 @@ networks:
 
 services:
   nginx:
+    container_name: nginx
     build:
       context: .
       dockerfile: requirements/nginx/Dockerfile
-    container_name: nginx
     networks:
       - inception
     env_file:
@@ -68,10 +68,10 @@ services:
       - wp-volume:/var/www/
 
   adminer:
+    container_name: adminer
     build:
       context: .
       dockerfile: requirements/bonus/adminer/Dockerfile
-    container_name: adminer
     depends_on:
       - mariadb
     ports:
@@ -81,10 +81,10 @@ services:
     restart: always
 
   redis:
+    container_name: redis
     build:
       context: .
       dockerfile: requirements/bonus/redis/Dockerfile
-    container_name: redis
     depends_on:
       - wordpress
     ports:
@@ -100,9 +100,9 @@ services:
       dockerfile: requirements/bonus/prometheus/Dockerfile
     ports:
       - 9090:9090
-    restart: always
     networks:
       - inception
+    restart: always
 
   ftp:
     container_name: ftp
@@ -116,15 +116,15 @@ services:
       - "21000:21000"
     volumes:
       - wp-volume:/home/gtaggana/ftp/files
-    restart: always
     networks:
       - inception
+    restart: always
 
   website:
+    container_name: website
     build:
       context: .
       dockerfile: requirements/bonus/site/Dockerfile
-    container_name: website
     ports:
       - "8081:8081"
     restart: always
