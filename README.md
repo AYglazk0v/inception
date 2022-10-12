@@ -32,7 +32,9 @@
 - Создать докер-сеть между контейнерами.
 - Реализовать топологию взаимодействия между контейнерами (см. ниже).
 
-![topologiya.png](https://github.com/AYglazk0v/inception/blob/main/additionally/topologiya.png)
+<div id="topologiya" align="center">
+  <img src="https://github.com/AYglazk0v/inception/blob/main/additionally/topologiya.png" width="400"/>
+</div>
 
 Бонусная часть:
  *  Настроить кэш redis для вашего сайта WordPress, чтобы правильно управлять кэшем.
